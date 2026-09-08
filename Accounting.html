@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ashok Beej Bhandar</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        /* Header */
+        header {
+            background: #1f2937;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-bottom: 5px;
+        }
+
+        /* Main */
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 25px auto;
+        }
+
+        /* Dashboard Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        /* Sections */
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            margin-bottom: 20px;
+        }
+
+        /* Form */
+        .form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .delete-btn {
+            background: #dc2626;
+        }
+
+        .delete-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #f1f5f9;
+        }
+
+        /* Money */
+        .money-box {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .income {
+            border-left: 5px solid green;
+        }
+
+        .expense {
+            border-left: 5px solid red;
+        }
+
+        .balance {
+            border-left: 5px solid blue;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #1f2937;
+            color: white;
+            margin-top: 30px;
+        }
+
+        /* Mobile */
+        @media(max-width: 700px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form {
+                grid-template-columns: 1fr;
+            }
+
+            .money-box {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            th,
+            td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>👨‍💼 Ashok Beej Bhandar</h1>
+        <p>Daily Work & Hisab-Kitab</p>
+    </header>
+
+
+    <div class="container">
+
+        <!-- Dashboard -->
+        <div class="cards">
+
+            <div class="card">
+                <h3>Total Work</h3>
+                <p id="totalWork">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Completed</h3>
+                <p id="completedWork">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Pending</h3>
+                <p id="pendingWork">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Today's Date</h3>
+                <p id="today"></p>
+            </div>
+
+        </div>
+
+
+        <!-- Add Work -->
+        <div class="section">
+
+            <h2>📋 Add New Work</h2>
+
+            <div class="form">
+                
+                   
+               <input list="work-options" id="work" name="work" 
+       placeholder="Search or select work">
+
+  <datalist id="work-options">
+    <option value="DAP">
+    <option value="Urea">
+    <option value="Profex">
+    <option value="Colt">
+    <option value="Vextar">
+    <option value="Eagle">
+    <option value="Humic">
+    <option value="Potash">
+    </datalist>
+
+                <input
+                    type="text"
+                    id="customer"
+                    placeholder="Customer Name"
+                >
+
+                <input
+                    type="date"
+                    id="workDate"
+                >
+
+                <select id="workStatus">
+
+                    <option value="Pending">
+                        Pending
+                    </option>
+
+                    <option value="Completed">
+                        Completed
+                    </option>
+
+                </select>
+
+                <button onclick="addWork()">
+                    + Add Work
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Work List -->
+        <div class="section">
+
+            <h2>📝 Work List</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Work</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="workTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- Money Section -->
+        <div class="section">
+
+            <h2>💰 Hisab-Kitab</h2>
+
+            <div class="money-box">
+
+                <div class="card income">
+
+                    <h3>Total Income</h3>
+
+                    <p>
+                        ₹<span id="totalIncome">0</span>
+                    </p>
+
+                </div>
+
+
+                <div class="card expense">
+
+                    <h3>Total Expense</h3>
+
+                    <p>
+                        ₹<span id="totalExpense">0</span>
+                    </p>
+
+                </div>
+
+
+                <div class="card balance">
+
+                    <h3>Balance</h3>
+
+                    <p>
+                        ₹<span id="balance">0</span>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Money Form -->
+        <div class="section">
+
+            <h2>💵 Add Income / Expense</h2>
+
+            <div class="form">
+
+                <input
+                    type="text"
+                    id="moneyDescription"
+                    placeholder="Description"
+                >
+
+                <input
+                    type="number"
+                    id="moneyAmount"
+                    placeholder="Amount"
+                >
+
+                <select id="moneyType">
+
+                    <option value="income">
+                        Income
+                    </option>
+
+                    <option value="expense">
+                        Expense
+                    </option>
+
+                </select>
+
+                <button onclick="addMoney()">
+                    + Add Money
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Money List -->
+        <div class="section">
+
+            <h2>💳 Money History</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="moneyTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <footer>
+        <p>Made with ❤️ for Papa</p>
+    </footer>
+
+
+    <script>
+
+        // =========================
+        // WORK DATA
+        // =========================
+
+        let works =
+            JSON.parse(localStorage.getItem("works")) || [];
+
+
+        // =========================
+        // MONEY DATA
+        // =========================
+
+        let money =
+            JSON.parse(localStorage.getItem("money")) || [];
+
+
+        // =========================
+        // TODAY'S DATE
+        // =========================
+
+        let today = new Date();
+
+        document.getElementById("today").innerText =
+            today.toLocaleDateString();
+
+
+        // =========================
+        // ADD WORK
+        // =========================
+
+        function addWork() {
+
+            let workName =
+                document.getElementById("workName").value;
+
+            let customer =
+                document.getElementById("customer").value;
+
+            let workDate =
+                document.getElementById("workDate").value;
+
+            let workStatus =
+                document.getElementById("workStatus").value;
+
+
+            if (
+                workName === "" ||
+                customer === "" ||
+                workDate === ""
+            ) {
+
+                alert("Please fill all details");
+
+                return;
+            }
+
+
+            let newWork = {
+
+                id: Date.now(),
+
+                work: workName,
+
+                customer: customer,
+
+                date: workDate,
+
+                status: workStatus
+
+            };
+
+
+            works.push(newWork);
+
+
+            localStorage.setItem(
+                "works",
+                JSON.stringify(works)
+            );
+
+
+            document.getElementById("workName").value = "";
+
+            document.getElementById("customer").value = "";
+
+            document.getElementById("workDate").value = "";
+
+
+            displayWorks();
+
+        }
+
+
+        // =========================
+        // DISPLAY WORKS
+        // =========================
+
+        function displayWorks() {
+
+            let table =
+                document.getElementById("workTable");
+
+
+            table.innerHTML = "";
+
+
+            works.forEach(function(item) {
+
+                let row =
+                    document.createElement("tr");
+
+
+                row.innerHTML = `
+
+                    <td>${item.work}</td>
+
+                    <td>${item.customer}</td>
+
+                    <td>${item.date}</td>
+
+                    <td>${item.status}</td>
+
+                    <td>
+
+                        <button
+                            class="delete-btn"
+                            onclick="deleteWork(${item.id})"
+                        >
+                            Delete
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            });
+
+
+            updateDashboard();
+
+        }
+
+
+        // =========================
+        // DELETE WORK
+        // =========================
+
+        function deleteWork(id) {
+
+            works =
+                works.filter(function(item) {
+
+                    return item.id !== id;
+
+                });
+
+
+            localStorage.setItem(
+                "works",
+                JSON.stringify(works)
+            );
+
+
+            displayWorks();
+
+        }
+
+
+        // =========================
+        // DASHBOARD
+        // =========================
+
+        function updateDashboard() {
+
+            let total =
+                works.length;
+
+
+            let completed =
+                works.filter(function(item) {
+
+                    return item.status === "Completed";
+
+                }).length;
+
+
+            let pending =
+                works.filter(function(item) {
+
+                    return item.status === "Pending";
+
+                }).length;
+
+
+            document.getElementById("totalWork")
+                .innerText = total;
+
+
+            document.getElementById("completedWork")
+                .innerText = completed;
+
+
+            document.getElementById("pendingWork")
+                .innerText = pending;
+
+        }
+
+
+        // =========================
+        // ADD MONEY
+        // =========================
+
+        function addMoney() {
+
+            let description =
+                document.getElementById(
+                    "moneyDescription"
+                ).value;
+
+
+            let amount =
+                document.getElementById(
+                    "moneyAmount"
+                ).value;
+
+
+            let type =
+                document.getElementById(
+                    "moneyType"
+                ).value;
+
+
+            if (
+                description === "" ||
+                amount === ""
+            ) {
+
+                alert("Please enter details");
+
+                return;
+
+            }
+
+
+            let newMoney = {
+
+                id: Date.now(),
+
+                description: description,
+
+                amount: Number(amount),
+
+                type: type
+
+            };
+
+
+            money.push(newMoney);
+
+
+            localStorage.setItem(
+                "money",
+                JSON.stringify(money)
+            );
+
+
+            document.getElementById(
+                "moneyDescription"
+            ).value = "";
+
+
+            document.getElementById(
+                "moneyAmount"
+            ).value = "";
+
+
+            displayMoney();
+
+        }
+
+
+        // =========================
+        // DISPLAY MONEY
+        // =========================
+
+        function displayMoney() {
+
+            let table =
+                document.getElementById(
+                    "moneyTable"
+                );
+
+
+            table.innerHTML = "";
+
+
+            money.forEach(function(item) {
+
+                let row =
+                    document.createElement("tr");
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${item.description}
+                    </td>
+
+                    <td>
+                        ₹${item.amount}
+                    </td>
+
+                    <td>
+                        ${item.type}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="delete-btn"
+                            onclick="deleteMoney(${item.id})"
+                        >
+                            Delete
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            });
+
+
+            updateMoney();
+
+        }
+
+
+        // =========================
+        // DELETE MONEY
+        // =========================
+
+        function deleteMoney(id) {
+
+            money =
+                money.filter(function(item) {
+
+                    return item.id !== id;
+
+                });
+
+
+            localStorage.setItem(
+                "money",
+                JSON.stringify(money)
+            );
+
+
+            displayMoney();
+
+        }
+
+
+        // =========================
+        // MONEY CALCULATION
+        // =========================
+
+        function updateMoney() {
+
+            let income = 0;
+
+            let expense = 0;
+
+
+            money.forEach(function(item) {
+
+                if (item.type === "income") {
+
+                    income =
+                        income + item.amount;
+
+                }
+                else {
+
+                    expense =
+                        expense + item.amount;
+
+                }
+
+            });
+
+
+            let balance =
+                income - expense;
+
+
+            document.getElementById(
+                "totalIncome"
+            ).innerText = income;
+
+
+            document.getElementById(
+                "totalExpense"
+            ).innerText = expense;
+
+
+            document.getElementById(
+                "balance"
+            ).innerText = balance;
+
+        }
+
+
+        // =========================
+        // LOAD DATA
+        // =========================
+
+        displayWorks();
+
+        displayMoney();
+
+    </script>
+
+</body>
+</html>
